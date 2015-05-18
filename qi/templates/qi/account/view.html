@@ -1,0 +1,42 @@
+{% extends "qi/base.html" %}
+{% block content %}
+<div class="box">
+<div class="content">
+    <table class="table table-striped table-bordered">  
+        <tbody>
+            <tr>
+                <td></td>
+                <td colspan="3">Account</td>
+                <td style="text-align: right">{{account.id}}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="3">Balance</td>
+                <td style="text-align: right">@ {{account.balance}}</td>
+                <td></td>
+            </tr>
+        </thead>
+    </table>
+    <table class="table table-striped table-bordered">  
+        <thead>
+            <th></th>
+            <th>Time</th>
+            <th>Transaction</th>
+            <th>Amount</th>
+            <th></th>
+        </thead>
+        <tbody>
+            {% for transaction in transactions %}
+            <tr>
+                <td></td>
+                <td>{{transaction.time}}</td>
+                <td><a href="#">{{transaction.text}}</a></td>
+                <td style="text-align: right">@ {{transaction.amount}}</td>
+                <td></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

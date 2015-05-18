@@ -1,0 +1,84 @@
+{% extends "qi/base.html" %}
+{% block content %}
+<div class="box">
+<div class="content">
+    <div class="row">
+        {% for object in qi_accounts %}
+        <div class="col-md-6">
+            <h3>{{object.name}}</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Account</th>
+                        <th>Transaction</th>
+                        <th>Debet</th>
+                        <th>Credit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for t in object.transactions %}
+                    <tr>
+                        <td></td>
+                        <td>{{t.name}}</td>
+                        <td style="text-align: right">{{t.credit}}</td>
+                        <td style="text-align: right">{{t.debet}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td style="text-align: right">{{object.sum_debet}}</td>
+                        <td style="text-align: right">{{object.sum_credit}}</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="box">
+    <div class="content">
+        <h3>Qi accounts</h3>
+    	<table class="table table-striped table-bordered">	
+    		<thead>
+    			<th></th>
+    			<th>Account</th>
+    			<th>Balance</th>
+    			<th></th>
+    		</thead>
+    		<tbody>
+    			{% for account in qi_accounts %}
+    			<tr>
+    				<td></td>
+    				<td><a href="{% url 'qi.views.account' account.id %}">{{account}}</a></td>
+    				<td style="text-align: right">@ {{account.balance}}</td>
+    				<td></td>
+    			</tr>
+    			{% endfor %}
+    		</tbody>
+    	</table>
+        <h3>Karma accounts</h3>
+        <table class="table table-striped table-bordered">  
+            <thead>
+                <th></th>
+                <th>Account</th>
+                <th>Balance</th>
+                <th></th>
+            </thead>
+            <tbody>
+                {% for account in karma_accounts %}
+                <tr>
+                    <td></td>
+                    <td><a href="{% url 'qi.views.account' account.id %}">{{account}}</a></td>
+                    <td style="text-align: right">@ {{account.balance}}</td>
+                    <td></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

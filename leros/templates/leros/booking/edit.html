@@ -1,0 +1,12 @@
+{% extends "leros/base.html" %}
+{% block body %}
+<div class="box">
+	<form method="POST" action="{% url 'leros.views.edit_booking' booking.id %}">
+		{% csrf_token %}
+		{% for field in form %}
+            {{ field.label_tag }} <br />{{ field }}<br />
+        {% endfor %}
+		<button type="submit" class="btn btn-info"><span class="glyphicon glyphicon-plus"></span> Add</button>
+	</form>
+</div>
+{% endblock %}

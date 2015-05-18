@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block menu %}
+<ul class="nav nav-pills">
+<li><a href="{% url 'leros.views.dashboard' %}">Dashboard</a></li>
+<li><a href="{% url 'leros.views.bookings' %}">Bookings</a></li>
+<li><a href="{% url 'leros.views.activitys' %}">Activity</a></li>
+<li><a href="{% url 'account_logout' %}">Log out</a></li>
+</ul>
+{% endblock %}

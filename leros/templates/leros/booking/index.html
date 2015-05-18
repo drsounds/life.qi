@@ -1,0 +1,56 @@
+{% extends "leros/base.html" %}
+{% block top %}
+<ol class="breadcrumb">
+  <li><a href="{% url 'leros.views.dashboard' %}">Home</a></li>
+  <li class="active">My bookings</li>
+</ol>
+{% endblock %}
+{% block body %}
+<div class="box">
+
+<h1>My bookings <a class="btn btn-info pull-right" href="{% url 'leros.views.add_booking' %}"><span class="glyphicon glyphicon-plus"></span> Add</a></h1>
+<table class="table table-striped table-bordered table-condensed table-rounded">
+    <thead>
+        <th></th>
+        <th>Date</th>
+        <th>Facility</th>
+      	<th></th>
+        <th></th>
+    </thead>
+    <tbody>
+        {% for booking in bookings %}
+        <tr>
+            <td></td>
+            <td><a href="{% url 'portal.views.edit_booking' booking.id %}">{{booking.time}}</a></td>
+            <td>{{booking.facility.name}}</td>
+            <td><a class="btn btn-danger" href="{% url 'portal.views.delete_booking' booking.id %}">Delete</a></td>
+            <td></td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">You have no bookings</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<ul class="pagination">
+    {% if bookings.has_previous %}
+    <li><a href="?page={{ bookings.previous_page_number }}">&laquo;</a></li>
+    {% endif %}
+
+    <li class="current">
+        <a>Page {{ bookings.number }} of {{ bookings.paginator.num_pages }}.</a>
+    </li>
+
+    {% if bookings.has_next %}
+    <li>
+        <a href="?page={{ bookings.next_page_number }}">&raquo;</a>
+    </li>
+    {% endif %}
+</ul>
+</div>
+{% endblock %}
+{% block sidebar %}
+<div class="box box-info">
+</div>
+{% endblock %}

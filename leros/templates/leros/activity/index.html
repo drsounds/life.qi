@@ -1,0 +1,62 @@
+{% extends "leros/base.html" %}
+{% block top %}
+<ol class="breadcrumb">
+  <li><a href="{% url 'leros.views.dashboard' %}">Home</a></li>
+  <li class="active">My activitys</li>
+</ol>
+{% endblock %}
+{% block body %}
+<div class="box">
+
+<h1>My activitys <a class="btn btn-info pull-right" href="{% url 'leros.views.add_activity' %}"><span class="glyphicon glyphicon-plus"></span> Add</a></h1>
+<table class="table table-striped table-bordered table-condensed table-rounded">
+    <thead>
+        <th></th>
+        <th>Date</th>
+        <th>Sport</th>
+        <th>Facility</th>
+        <th>Duration</th>
+        <th>Action</th>
+        <th></th>
+    </thead>
+    <tbody>
+        {% for activity in activitys %}
+        <tr>
+            <td></td>
+            <td><a href="{% url 'portal.views.edit_activity' activity.id %}">{{activity.time}}</a></td>
+            <td>{{activity.sport.name}}</td>
+            <td>{{activity.facility.name}}</td>
+            <td>{{activity.duration}}</td>
+            <td><a class="btn btn-danger" href="{% url 'portal.views.delete_activity' activity.id %}">Delete</a></td>
+            <td></td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td></td>
+            <td colspan="5">You have no activitys</td>
+            <td></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<ul class="pagination">
+    {% if activitys.has_previous %}
+    <li><a href="?page={{ activitys.previous_page_number }}">&laquo;</a></li>
+    {% endif %}
+
+    <li class="current">
+        <a>Page {{ activitys.number }} of {{ activitys.paginator.num_pages }}.</a>
+    </li>
+
+    {% if activitys.has_next %}
+    <li>
+        <a href="?page={{ activitys.next_page_number }}">&raquo;</a>
+    </li>
+    {% endif %}
+</ul>
+</div>
+{% endblock %}
+{% block sidebar %}
+<div class="box box-info">
+</div>
+{% endblock %}
