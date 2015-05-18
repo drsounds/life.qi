@@ -8,6 +8,12 @@ from tastypie.test import ResourceTestCase
 from qi.models import *
 from qi.api import *
 import json
+
+def dump(obj):
+   for attr in dir(obj):
+       if hasattr( obj, attr ):
+           print( "obj.%s = %s" % (attr, getattr(obj, attr)))
+
 class AccountResourceTest(ResourceTestCase):
 	fixtures = ['test_entries.json']
 
@@ -40,7 +46,7 @@ class AccountResourceTest(ResourceTestCase):
 		self.qi_1.save()
 		self.qi_2 = Qi(transaction=self.transaction_1, user=self.user, account=self.account_2, amount=100, currency=self.currency_yog, balance=0, time=datetime.datetime.now(), text='dr. Sounds')
 		self.qi_2.save()
-		self.access_token = AccessToken(user=self.user, token='test2', client=self.client, expires=datetime.datetime.now()  + datetime.timedelta(days=1))
+		self.access_token = AccessToken(scope=6, user=self.user, token='test2', client=self.client, expires=datetime.datetime.now()  + datetime.timedelta(days=1))
 		self.access_token.save()
 		
 
@@ -71,36 +77,36 @@ class AccountResourceTest(ResourceTestCase):
 		music_karma_account = data['objects'][1]
 		job_account = data['objects'][2]
 
-		resp = self.api_client.post('/qi/api/v1/me/transactions', {
+		resp = self.api_client.post('/qi/api/v1/me/transactions/', data={
 			'name': 'Duva',
 			'amount': 100,
-			'currency': '/v1/currencies/YOG'
+			'text': '',	
+			'currency': '/v1/currencies/YOG',
 		}, format='json', authentication=self.get_credentials())
-		self.assertValidJSONResponse(resp)
+		print resp
 		duva_transaction = self.deserialize(resp)
 
-		qi_1 = self.api_client.post('/qi/api/v1/me/qis', {
+		qi_1 = self.api_client.post('/qi/api/v1/me/qis/', data={
 			'name': 'Duva',
 			'amount': -100,
-			'transaction': '/v1/me/qis/' + duva_transaction['id'],
-			'account': '/v1/me/accounts/' + music_karma_account['id'] + '/'
+			'transaction': '/v1/me/transactions/' + duva_transaction['id'] + '/',
+			'account': '/v1/me/accounts/' + music_karma_account['id'] + '/',
+			'currency': '/v1/currencies/YOG/',
 		}, format='json', authentication=self.get_credentials())
 
-		self.assertValidJSONResponse(qi_1)
+		# self.assertValidJSONResponse(qi_1)
 		data = self.deserialize(qi_1)
 
-		qi_2 = self.api_client.post('/qi/api/v1/me/qis', {
+		qi_2 = self.api_client.post('/qi/api/v1/me/qis/', data={
 			'name': 'Duva',
 			'amount': 100,
-			'transaction': '/v1/me/qis/' + duva_transaction['id'],
-			'account': '/v1/me/accounts/' + job_account['id'] + '/'
+			'transaction': '/v1/me/transactions/' + duva_transaction['id'] + '/',
+			'account': '/v1/me/accounts/' + job_account['id'] + '/',
+			'currency': '/v1/currencies/YOG',
 		}, format='json', authentication=self.get_credentials())
-
-		self.assertValidJSONResponse(qi_2)
+		print qi_2
+		# self.assertValidJSONResponse(qi_2)
 		data = self.deserialize(qi_2)
-
-		print data
-
 """
 class APITest(TestCase):
 	fixtures = ['test_entries.json']
