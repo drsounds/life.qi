@@ -15,6 +15,7 @@ from tastypie.resources import ModelResource
 from tastypie.utils import trailing_slash
 class DashboardResource(BaseCorsResource):
     pass
+
 class QiResource(CORSModelResource):
     id = fields.CharField(attribute='id')
     account = fields.ForeignKey('qi.api.AccountResource', 'account', full=True, null=True)
@@ -41,6 +42,8 @@ class QiResource(CORSModelResource):
     def hydrate(self, bundle):
         bundle.obj.user = bundle.request.user
         return bundle
+    def get_object_list(self, request): 
+        return super(QiResource, self).get_object_list(request).filter(user=request.user).order_by('-time')
 
 class TransactionResource(CORSModelResource):
     id = fields.CharField(attribute='id')
@@ -61,7 +64,10 @@ class TransactionResource(CORSModelResource):
     
     def obj_create(self, bundle, **kwargs):
         return super(TransactionResource, self).obj_create(bundle, user=bundle.request.user)
-    
+   
+    def get_object_list(self, request): 
+        return super(TransactionResource, self).get_object_list(request).filter(user=request.user).order_by('-time')
+   
     def hydrate(self, bundle):
         bundle.obj.user = bundle.request.user
         return bundle
@@ -89,6 +95,9 @@ class AccountResource(CORSModelResource):
         return qi_resource.get_list(request, filters={
             'account': account_id
         })
+
+    def get_object_list(self, request): 
+        return super(AccountResource, self).get_object_list(request).filter(user=request.user)
 
     def dehydrate(self, bundle):
         return bundle
