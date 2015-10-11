@@ -1,18 +1,28 @@
+
+from django.conf.urls import patterns, include, url
+from django.core.paginator import Paginator, InvalidPage
+from django.http import Http404
+
+
 from tastypie.resources import ModelResource
-from qi.models import *
 from tastypie.resources import Resource
 from tastypie.bundle import Bundle
 from tastypie import fields
-from provider.constants import READ, WRITE, READ_WRITE
 from tastypie_oauth.authentication import OAuth2ScopedAuthentication, OAuth20Authentication
 from tastypie.authorization import DjangoAuthorization, Authorization
-from qi.cors import *
-from django.conf.urls import patterns, include, url
-from django.core.paginator import Paginator, InvalidPage
-from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
-from django.http import Http404
 from tastypie.resources import ModelResource
 from tastypie.utils import trailing_slash
+from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
+from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
+
+
+from provider.constants import READ, WRITE, READ_WRITE
+
+from qi.models import *
+from qi.cors import *
+
+
+
 class DashboardResource(BaseCorsResource):
     pass
 
@@ -114,6 +124,10 @@ class AccountResource(CORSModelResource):
         list_allowed_methods = ['get', 'post', 'put']
         detail_allowed_methods = ['get', 'put']
         always_return_data = True
+        filtering = {
+            'currency': ALL_WITH_RELATIONS
+        }
+        
 
 class CurrencyResource(CORSModelResource):
     id = fields.CharField(attribute='id')

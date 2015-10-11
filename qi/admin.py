@@ -62,9 +62,20 @@ class TransactionAdmin(admin.ModelAdmin):
     list_display = ('time', 'amount')
     ordering = ('-time',)
 
+
+class WeatherAdmin(admin.ModelAdmin):
+    list_display = ('time', 'yin', 'yang',)
+    ordering = ('-time',)
+
+
+class AccountAdmin(admin.ModelAdmin):
+    list_display = ('name', 'balance', 'user',)
+    ordering = ('user', 'name',)
+
 admin.site.register(Qi, QiAdmin)
 admin.site.register(Transaction, TransactionAdmin)
-admin.site.register(Account)
+admin.site.register(Weather, WeatherAdmin)
+admin.site.register(Account, AccountAdmin)
 admin.site.register(Currency)
 admin.site.register(Tag)
 

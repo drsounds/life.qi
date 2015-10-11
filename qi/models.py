@@ -18,8 +18,15 @@ class Currency(models.Model):
     def __unicode__(self):
         return self.id
 
-class Account(models.Model):
+class Realm(models.Model):
+    name = models.CharField(max_length=255)
 
+class Dream(models.Model):
+    realm = models.ForeignKey(Realm)
+    text = models.TextField()
+    time = models.DateTimeField()
+
+class Account(models.Model):
     id = models.CharField(max_length=25, blank=True, primary_key=True)
     balance = models.FloatField()
     user = models.ForeignKey(User, related_name='accounted_user')
@@ -41,6 +48,21 @@ class Tag(models.Model):
         super(Tag, self).save(args, kwargs)
     def __unicode__(self):
         return self.id
+
+
+class Weather(models.Model):
+    yin = models.FloatField(default=1)
+    yang = models.FloatField(default=1)
+
+    user = models.ForeignKey(User, related_name='user')
+    time = models.DateTimeField(default=datetime.datetime.now)
+
+    def harmony_level(self):
+        return (100 * (1 - yin)) - (100 * (1 - yang))
+
+    def entropy(self):
+        return self.harmony_level() - 100
+
 
 class Qi(models.Model):
     id = models.CharField(max_length=25, blank=True, primary_key=True)

@@ -21,4 +21,5 @@ urlpatterns = patterns('',
     url(r'^qi/', include('qi.urls')),
 	url(r'^oauth/', include('provider.oauth2.urls', namespace = 'oauth2')),
     url(r'^api/', include(v1_api.urls)),
+    url(r'^drsounds/', include('drsounds.urls')),
 )

@@ -19,7 +19,7 @@ class InqueryInline(admin.StackedInline):
     ordering = ('-time',)
 
 class OpportunityAdmin(admin.ModelAdmin):
-    list_display = ('title', 'added', 'updated', 'user', 'category', 'outcome', 'status',)
+    list_display = ('title', 'added', 'updated', 'user', 'category', 'outcome', 'status', 'state')
     list_filter = ('category', 'status', 'outcome',)
     ordering = ('priority', '-added',)
     inlines = [InqueryInline,]

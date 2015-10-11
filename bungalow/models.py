@@ -12,6 +12,13 @@ class StatusCode(models.Model):
     def __unicode__(self):
         return self.title
 
+class State(models.Model):
+    id = models.IntegerField(primary_key=True)
+    title = models.CharField(max_length=255)
+    def __unicode__(self):
+        return self.title
+
+
 class Tag(models.Model):
     title = models.CharField(max_length=255)
     def __unicode__(self):
@@ -37,6 +44,7 @@ class Opportunity(models.Model):
     tags = models.ManyToManyField(Tag, null=True, blank=True)
     user = models.ForeignKey(User)
     title = models.CharField(max_length=255)
+    state = models.ForeignKey(State)
     def __unicode__(self):
         return self.title
 

@@ -41,7 +41,8 @@ INSTALLED_APPS = (
     'leros',
     'qi',
     'accounting',
- #   'bungalow',
+    'bungalow',
+    'drsounds',
     'tastypie',
     'tastypie_oauth',
     'provider.oauth2',
@@ -92,3 +93,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = 'http://artistconn.webfactional.com/'
+MEDIA_ROOT = '/home/aleros/webapps/uploads'
+MEDIA_URL = 'http://uploads.aquajogging.se/'
